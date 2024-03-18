@@ -1,0 +1,20 @@
+server:
+  port: ${SERVE_PORT:8086}
+  servlet:
+    context-path: /v1/rest
+spring:
+  application:
+    name: rekome
+  datasource:
+    url: ${DB_URL:jdbc:mariadb://localhost:3306/rekome?createIfNotExists=true}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties: 
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
