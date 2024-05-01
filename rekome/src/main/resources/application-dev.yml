@@ -17,4 +17,21 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties: 
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.MySQLDialect      
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 128MB
+app:
+  cors:
+    headers: ${APP_CORS_HEADERS}
+    origins: ${APP_CORS_ORIGINS}
+    methods: ${APP_CORS_METHODS}
+  public-key: ${APP_PUBLIC_KEY:classpath:app-pub.key}
+  private-key: ${APP_PRIVATE_KEY:classpath:app.key}
+  
+logging:
+ level:
+  org:
+    springframework:
+      security: TRACE
