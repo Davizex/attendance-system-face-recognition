@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class UserCreationOperation {
+public class UserCreateOperation {
 
 	@NotBlank
 	private final String name;
@@ -30,7 +30,7 @@ public class UserCreationOperation {
 	@NotBlank
 	private final String confirmationPassword;
 
-	public UserCreationOperation(@NotBlank String name, @Email @NotBlank String email, @CPF @NotBlank String document,
+	public UserCreateOperation(@NotBlank String name, @Email @NotBlank String email, @CPF @NotBlank String document,
 			@NotNull Date birthday, @NotBlank String password, @NotBlank String confirmationPassword) {
 		this.name = name;
 		this.email = email;
