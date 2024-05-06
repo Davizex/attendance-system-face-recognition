@@ -50,15 +50,17 @@ public class SecurityConfig {
 		http
 			.oauth2ResourceServer( oauth -> oauth
 					.jwt(Customizer.withDefaults()))
-					.sessionManagement(session -> session
-							.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-					.csrf(csrf -> csrf
-							.disable());
+			.sessionManagement(session -> session
+					.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.csrf(csrf -> csrf
+					.disable());
 		
 		http
 			.authorizeHttpRequests((auth) -> auth
 					.requestMatchers("/auth/login").permitAll()
+					.requestMatchers("/user/create").permitAll()
 					.anyRequest().authenticated());
+
 		
 		return http.build();
 	}
