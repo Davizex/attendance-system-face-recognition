@@ -6,7 +6,7 @@ import java.util.Date;
 import org.hibernate.annotations.CreationTimestamp;
 
 import br.com.rekome.enums.UserRolesEnum;
-import br.com.rekome.operation.UserCreationOperation;
+import br.com.rekome.operation.UserCreateOperation;
 import br.com.rekome.utils.UserUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,10 +15,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-@Entity(name = "user")
+@Entity
+@Table(name = "user")
 public class User {
 
 	@Id
@@ -37,7 +39,7 @@ public class User {
 	@Column(nullable = false)
 	private Date birthday;	
 	
-	@Column(unique = true, length = 36)
+	@Column(unique = true, length = 36, nullable = false)
 	private String uuid;
 		
 	@CreationTimestamp
@@ -45,7 +47,6 @@ public class User {
 	private LocalDateTime creationDate;
 	
 	@Enumerated(EnumType.STRING)
-	//MODIFICAR ISSO PARA O PADRÃO SPRING BOOT
 	@Column(nullable = false, columnDefinition = "varchar(255) DEFAULT 'DEFAULT'")
 	private UserRolesEnum role;
 
@@ -54,8 +55,23 @@ public class User {
 	
 	@NotBlank
 	private String salt;
+
+	public User(Long id, String name, @Email String email, String document, Date birthday, String uuid,
+			LocalDateTime creationDate, UserRolesEnum role, @NotBlank String password, @NotBlank String salt) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.document = document;
+		this.birthday = birthday;
+		this.uuid = uuid;
+		this.creationDate = creationDate;
+		this.role = role;
+		this.password = password;
+		this.salt = salt;
+	}
 	
-	public User(UserCreationOperation userOperation) {
+	public User(UserCreateOperation userOperation) {
 		this.name = userOperation.getName();
 		this.email = userOperation.getEmail();
 		this.document = userOperation.getDocument();
@@ -65,7 +81,7 @@ public class User {
 		this.salt = UserUtils.generatePasswordSalt();
 		this.password = UserUtils.generatePassword(userOperation.getPassword(), this.salt);
 	}
-
+	
 	public User() {
 	}
 

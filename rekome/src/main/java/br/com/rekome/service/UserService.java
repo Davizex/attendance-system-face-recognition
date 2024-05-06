@@ -1,6 +1,8 @@
 package br.com.rekome.service;
 
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -8,12 +10,12 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import br.com.rekome.entities.User;
-import br.com.rekome.operation.UserCreationOperation;
+import br.com.rekome.operation.UserCreateOperation;
 import br.com.rekome.operation.UserLoginOperation;
 import br.com.rekome.repository.UserRepository;
 import br.com.rekome.response.LoginResponse;
 import br.com.rekome.utils.UserUtils;
-import br.com.rekome.validation.UserCreationValidation;
+import br.com.rekome.validation.UserCreateValidation;
 import br.com.rekome.validation.UserPasswordValidation;
 
 @Service
@@ -30,9 +32,9 @@ public class UserService {
 		this.jwtEncoder = jwtEncoder;
 	}
 
-	public User create(UserCreationOperation userOperation) {
+	public User create(UserCreateOperation userOperation) {
 		
-		new UserCreationValidation(userOperation).execute();
+		new UserCreateValidation(userOperation).execute();
 		
 		var user = new User(userOperation);
 		this.userRepository.save(user);
@@ -50,9 +52,19 @@ public class UserService {
 		
 		new UserPasswordValidation(user, login.getPassword()).execute();;
 		
-		var params = UserUtils.claimSet(user.getUuid());	
+		var params = UserUtils.claimSet(user.getUuid(), user.getRole());	
 		var value = jwtEncoder.encode(JwtEncoderParameters.from(params));
 
 		return new LoginResponse(value);
+	}
+
+	public User findUserByUUID(String userUUID) {
+		Optional<User> userOp = this.userRepository.findByUuid(userUUID);
+		
+		if(userOp.isPresent()) {
+			return userOp.get();
+		}else {
+			throw new RuntimeException("user " + userUUID + " not found");
+		}
 	}
 }

@@ -1,13 +1,19 @@
 package br.com.rekome.validation;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.regex.Pattern;
+
 import br.com.rekome.interfaces.ValidationInterface;
-import br.com.rekome.operation.UserCreationOperation;
+import br.com.rekome.operation.UserCreateOperation;
+import br.com.rekome.utils.DateUtils;
+import br.com.rekome.utils.UserUtils;
 
-public class UserCreationValidation implements ValidationInterface {
+public class UserCreateValidation implements ValidationInterface {
 		
-	private final UserCreationOperation user;	
+	private final UserCreateOperation user;	
 
-	public UserCreationValidation(UserCreationOperation user) {
+	public UserCreateValidation(UserCreateOperation user) {
 		this.user = user;
 	}
 
@@ -15,15 +21,29 @@ public class UserCreationValidation implements ValidationInterface {
 	public void execute() {
 		validateUserAge(user);
 		validateUserPassword(user);
+		validateIsValidPassword(user);
 	}
 
-	private void validateUserPassword(UserCreationOperation user) {
+	private void validateIsValidPassword(UserCreateOperation user) {
+		var isValid = Pattern.matches(UserUtils.PASSWORD_REGEX, user.getPassword());
+		if(!isValid) {
+			throw new IllegalArgumentException("Password isn't valid");
+		}
+	}
+
+	private void validateUserPassword(UserCreateOperation user) {
 		if(!user.getPassword().equals(user.getConfirmationPassword())) {
 			throw new IllegalArgumentException("Password don't match");
 		}
 	}
 
-	private void validateUserAge(UserCreationOperation user) {
-
+	private void validateUserAge(UserCreateOperation user) {
+		var userBirthday = DateUtils.dateToLocalDate(user.getBirthday());
+		var period = Period.between(userBirthday, LocalDate.now());
+		
+		if (period.getYears() < 18) {
+	        throw new IllegalArgumentException("User must be at least 18 years old.");
+	    }
 	}
+
 }

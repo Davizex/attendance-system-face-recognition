@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.rekome.operation.UserCreationOperation;
+import br.com.rekome.operation.UserCreateOperation;
 import br.com.rekome.service.UserService;
 
 @RestController
@@ -20,8 +20,8 @@ public class UserController {
 		this.userService = userService;
 	}
 		
-    @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserCreationOperation user) {
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody UserCreateOperation user) {
         userService.create(user);
         return new ResponseEntity<>("user created", HttpStatus.CREATED) ;
     }

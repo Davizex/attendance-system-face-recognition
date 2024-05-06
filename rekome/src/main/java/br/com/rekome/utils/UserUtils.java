@@ -9,12 +9,16 @@ import java.util.UUID;
 
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 
+import br.com.rekome.enums.UserRolesEnum;
+
 public class UserUtils {
 	
 	private static final int EXPIRE_TIME_TOKEN = 60;
 	
 	private static final String REMOKE_SERVICE = "remoke-service";
 
+	public static final String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\\[\\]:;<>,.?\\\\/~`-]).*$";
+	
 	public static String generateUUID() {
 		return UUID.randomUUID().toString();
 	}
@@ -55,7 +59,7 @@ public class UserUtils {
 		}
 	}
 	
-	public static JwtClaimsSet claimSet(String userUUID) {
+	public static JwtClaimsSet claimSet(String userUUID, UserRolesEnum scope) {
 		Instant now = Instant.now();
 		
 		return JwtClaimsSet.builder()
@@ -63,6 +67,7 @@ public class UserUtils {
 			.subject(userUUID)
 			.issuedAt(now)
 			.expiresAt(now.plus(EXPIRE_TIME_TOKEN, ChronoUnit.MINUTES))
+			.claim("scope", scope)
 			.build();
 	}
 }
