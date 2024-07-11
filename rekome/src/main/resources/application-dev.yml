@@ -21,7 +21,15 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-request-size: 128MB
+      max-file-size: 15MB
+      max-request-size: 15MB
+  cloud:
+    aws:
+      credentials:
+        access-key: 
+        secret-key: 
+      s3:
+        region: us-east-1
 app:
   cors:
     headers: ${APP_CORS_HEADERS}
@@ -29,9 +37,11 @@ app:
     methods: ${APP_CORS_METHODS}
   public-key: ${APP_PUBLIC_KEY:classpath:app-pub.key}
   private-key: ${APP_PRIVATE_KEY:classpath:app.key}
-  
+  properties:
+    aws-bucket: ${APP_PROPERTIES_AWS_BUCKET:rekognition-custom}
 logging:
  level:
   org:
     springframework:
+      web: TRACE
       security: TRACE
