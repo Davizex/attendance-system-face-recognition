@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import br.com.rekome.operation.GroupsCreateOperation;
+import br.com.rekome.operations.GroupsCreateOperation;
 import br.com.rekome.utils.UserUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

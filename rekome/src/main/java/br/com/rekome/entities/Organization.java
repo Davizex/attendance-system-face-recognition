@@ -2,7 +2,7 @@ package br.com.rekome.entities;
 
 import java.util.List;
 
-import br.com.rekome.operation.OrganizationCreateOperation;
+import br.com.rekome.operations.OrganizationCreateOperation;
 import br.com.rekome.utils.UserUtils;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

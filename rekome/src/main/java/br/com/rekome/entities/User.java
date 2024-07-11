@@ -6,7 +6,7 @@ import java.util.Date;
 import org.hibernate.annotations.CreationTimestamp;
 
 import br.com.rekome.enums.UserRolesEnum;
-import br.com.rekome.operation.UserCreateOperation;
+import br.com.rekome.operations.UserCreateOperation;
 import br.com.rekome.utils.UserUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -55,7 +55,7 @@ public class User {
 	
 	@NotBlank
 	private String salt;
-
+	
 	public User(Long id, String name, @Email String email, String document, Date birthday, String uuid,
 			LocalDateTime creationDate, UserRolesEnum role, @NotBlank String password, @NotBlank String salt) {
 		super();
