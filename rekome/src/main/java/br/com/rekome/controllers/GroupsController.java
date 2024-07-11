@@ -1,6 +1,8 @@
 package br.com.rekome.controllers;
 
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,14 +25,14 @@ public class GroupsController {
 	}
 	
 	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-	@PostMapping("/create")
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> create(@RequestBody GroupsCreateOperation group) {
 		groupsServices.create(group);
         return new ResponseEntity<>("groupd created", HttpStatus.CREATED) ;
     }
 	
 	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-	@PostMapping("/insert")
+	@PostMapping(path = "/insert", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> insertUsers(@RequestBody InsertInGroupOperation insert) {
 		groupsServices.insertIn(insert);
         return new ResponseEntity<>("groupd created", HttpStatus.CREATED) ;
