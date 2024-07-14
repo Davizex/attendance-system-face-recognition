@@ -43,5 +43,5 @@ logging:
  level:
   org:
     springframework:
-      web: TRACE
-      security: TRACE
+      web: ${APP_LOGGING_SPRING_WEB:TRACE}
+      security: ${APP_LOGGING_SPRING_SECURITY:TRACE}
