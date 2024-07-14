@@ -5,7 +5,7 @@ import java.util.List;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public class OrganizationCreateOperation {
+public class OrganizationEditOperation {
 	
 	@NotNull
 	private String name;
@@ -14,7 +14,8 @@ public class OrganizationCreateOperation {
 	@Min(1)
 	List<String> admins;
 
-	public OrganizationCreateOperation(@NotNull String name, @NotNull @Min(1) List<String> admins) {
+	public OrganizationEditOperation(@NotNull String name, @NotNull @Min(1) List<String> admins) {
+		super();
 		this.name = name;
 		this.admins = admins;
 	}
@@ -34,4 +35,6 @@ public class OrganizationCreateOperation {
 	public void setAdmins(List<String> admins) {
 		this.admins = admins;
 	}
+	
+	
 }

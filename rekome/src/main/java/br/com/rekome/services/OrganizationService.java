@@ -9,6 +9,7 @@ import br.com.rekome.entities.Organization;
 import br.com.rekome.entities.User;
 import br.com.rekome.enums.UserRolesEnum;
 import br.com.rekome.operations.OrganizationCreateOperation;
+import br.com.rekome.operations.OrganizationEditOperation;
 import br.com.rekome.repository.OrganizationRepository;
 import br.com.rekome.validations.OrganizationCreateValidation;
 
@@ -24,7 +25,7 @@ public class OrganizationService {
 		this.userService = userService;
 	}
 
-	public void create(OrganizationCreateOperation organizationOp) {
+	public Organization create(OrganizationCreateOperation organizationOp) throws Exception{
 		try {
 			new OrganizationCreateValidation().execute();
 			
@@ -37,21 +38,36 @@ public class OrganizationService {
 			}
 			
 			var organization = new Organization(organizationOp, adminList);
-			repository.save(organization);
+			return repository.save(organization);
 	
 		} catch (Exception e) {
 			throw new RuntimeException("Error on organization creation: " + e.getMessage());
 		}
 	}
 
-	public Organization findByUUID(String organizationUuid) {
-		Optional<Organization> organizationOp = this.repository.findByUuid(organizationUuid);
+	public void delete(String uuid) throws Exception {
+		var organization = findByUUID(uuid);
+
+		if (organization.getGroups().isEmpty()) {
+			//TODO
+		} else {
+			throw new Exception("Organization can't be deleted has " + organization.getGroups().size()
+					+ " groups, need to delete them.");
+		}
+	}
+
+	public Organization findByUUID(String uuid) {
+		Optional<Organization> organizationOp = this.repository.findByUuid(uuid);
 		
 		if(organizationOp.isPresent()) {
 			return organizationOp.get();
 		}else {
-			throw new RuntimeException("organization " + organizationUuid + " not found");
+			throw new RuntimeException("organization " + uuid + " not found");
 		}
+	}
+
+	public void edit(OrganizationEditOperation organization) {
+		// TODO
 	}
 
 }
