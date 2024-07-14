@@ -26,7 +26,6 @@ public class UserController {
 		this.service = service;
 	}
 
-
 	@PostMapping(path = "/create", consumes = {"multipart/form-data"})
     public ResponseEntity<?> create( 
     		@RequestParam("file") MultipartFile file,
@@ -34,11 +33,4 @@ public class UserController {
         userService.create(user, file);
         return new ResponseEntity<>("usuário criado", HttpStatus.CREATED) ;
     }
-   
-//    @PostMapping(path = "/insertImage", consumes = {"multipart/form-data"})
-//    public ResponseEntity<?> insert( 
-//    		@RequestParam("file") MultipartFile file) throws Exception{
-//    	service.insertUserImageCreationS3(file);
-//    	return new ResponseEntity<>("inserted", HttpStatus.CREATED) ;
-//    }
 }

@@ -57,7 +57,7 @@ public class UserService {
 	}
 
 	public LoginResponse login(UserLoginOperation login) {
-		LOGGER.debug("Solicitação de login.");
+		LOGGER.debug("login request to {}", login.getEmail());
 		var user = userRepository.findByEmail(login.getEmail());
 		
 		if(user == null) {
@@ -68,7 +68,8 @@ public class UserService {
 		
 		var params = UserUtils.claimSet(user.getUuid(), user.getRole());	
 		var value = jwtEncoder.encode(JwtEncoderParameters.from(params));
-
+		
+		LOGGER.debug("successful login to {}", login.getEmail());
 		return new LoginResponse(value);
 	}
 
