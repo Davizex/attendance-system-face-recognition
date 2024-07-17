@@ -1,6 +1,5 @@
 package br.com.rekome.entities;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class Groups {
 			inverseJoinColumns = @JoinColumn(name="user_monitor_id"))
 	private List<User> monitors;
 		
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="organizationId", nullable = false)
 	private Organization organization;
 	
@@ -60,7 +59,7 @@ public class Groups {
 
 	@CreationTimestamp
 	@Column(nullable = false)
-	private LocalDateTime creationDate;
+	private Date creationDate;
 
 	public Groups(Long id, String uuid, @NotNull Date startDate, @NotNull Date endDate) {
 		this.id = id;
@@ -144,6 +143,18 @@ public class Groups {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
 	}
 	
 }
