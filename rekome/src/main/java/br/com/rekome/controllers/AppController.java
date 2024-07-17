@@ -1,6 +1,7 @@
 package br.com.rekome.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ public class AppController {
 	}
 
 	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-	@PostMapping("/s/{name}")
+	@PostMapping(path = "/s/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppConfigResponse> find(@PathVariable String name) {
 		var appConfig = this.appConfigService.findByName(name);
 		var appConfigResponse = new AppConfigResponse(appConfig);

@@ -34,14 +34,14 @@ public class OrganizationController {
 	public ResponseEntity<OrganizationDTO> create(@RequestBody @Validated OrganizationCreateOperation organizationOp,
 			UriComponentsBuilder builder) throws Exception {
 		var organization = this.organizationService.create(organizationOp);
-		var uri = builder.queryParam("uuid", organization.getUuid()).build().toUri();
+		var uri = builder.path("/organization/"+ organization.getUuid()).build().toUri();
 
 		return ResponseEntity.created(uri).body(new OrganizationDTO(organization));
 	}
 
 	@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
 	@DeleteMapping(path = "/{uuid}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> delete(@PathVariable(name = "uuid", required = true) final String uuid) throws Exception {
+	public ResponseEntity<?> delete(@PathVariable final String uuid) throws Exception {
 		this.organizationService.delete(uuid);
 		return ResponseEntity.noContent().build();
 	}
@@ -54,7 +54,7 @@ public class OrganizationController {
 	}
 
 	@GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<OrganizationDTO> findByUuid(@PathVariable(name = "uuid") final String uuid) throws Exception {
+	public ResponseEntity<OrganizationDTO> findByUuid(@PathVariable final String uuid) throws Exception {
 		var organization = this.organizationService.findByUUID(uuid);
 		return ResponseEntity.ok(new OrganizationDTO(organization));
 	}

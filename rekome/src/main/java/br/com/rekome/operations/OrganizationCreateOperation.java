@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class OrganizationCreateOperation {
 	
@@ -11,7 +12,7 @@ public class OrganizationCreateOperation {
 	private String name;
 
 	@NotNull
-	@Min(1)
+	@Size(min = 1)
 	List<String> admins;
 
 	public OrganizationCreateOperation(@NotNull String name, @NotNull @Min(1) List<String> admins) {

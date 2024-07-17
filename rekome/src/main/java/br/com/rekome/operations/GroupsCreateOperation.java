@@ -6,12 +6,6 @@ import java.util.List;
 import jakarta.validation.constraints.NotNull;
 
 public class GroupsCreateOperation {
-
-	@NotNull
-	private Date startDate;
-	
-	@NotNull
-	private Date endDate;
 	
 	@NotNull
 	private GroupsInfoCreateOperation groupInfo;
@@ -22,6 +16,12 @@ public class GroupsCreateOperation {
 	
 	private String organizationUuid;
 
+	@NotNull
+	private Date startDate;
+	
+	@NotNull
+	private Date endDate;
+	
 	public GroupsCreateOperation(@NotNull Date startDate, @NotNull Date endDate,
 			@NotNull GroupsInfoCreateOperation groupInfo, List<String> users, List<String> monitors) {
 		this.startDate = startDate;

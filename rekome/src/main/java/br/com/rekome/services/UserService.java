@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.rekome.entities.User;
 import br.com.rekome.interfaces.CloudProviderService;
 import br.com.rekome.operations.UserCreateOperation;
+import br.com.rekome.operations.UserEditOperation;
 import br.com.rekome.operations.UserLoginOperation;
 import br.com.rekome.repository.UserRepository;
 import br.com.rekome.responses.LoginResponse;
@@ -81,6 +82,16 @@ public class UserService {
 		}else {
 			throw new RuntimeException("user " + userUUID + " não encontrado.");
 		}
+	}
+
+	public void edit(UserEditOperation userOp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

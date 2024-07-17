@@ -1,7 +1,6 @@
 package br.com.rekome.services;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +26,6 @@ import software.amazon.awssdk.services.rekognition.model.AssociateFacesResponse;
 import software.amazon.awssdk.services.rekognition.model.CreateCollectionRequest;
 import software.amazon.awssdk.services.rekognition.model.CreateCollectionResponse;
 import software.amazon.awssdk.services.rekognition.model.CreateUserRequest;
-import software.amazon.awssdk.services.rekognition.model.CreateUserResponse;
 import software.amazon.awssdk.services.rekognition.model.FaceRecord;
 import software.amazon.awssdk.services.rekognition.model.Image;
 import software.amazon.awssdk.services.rekognition.model.IndexFacesRequest;
@@ -49,12 +47,10 @@ public class AwsRekognitionService implements CloudProviderService {
 	@Value("${app.properties.aws-bucket}")
 	private String bucketName;
 
-	public AwsRekognitionService(AmazonS3 awsS3, UserTermsService userTermsService, RekognitionClient rekognitionClient,
-			String bucketName) {
+	public AwsRekognitionService(AmazonS3 awsS3, UserTermsService userTermsService, RekognitionClient rekognitionClient) {
 		this.awsS3 = awsS3;
 		this.userTermsService = userTermsService;
 		this.rekognitionClient = rekognitionClient;
-		this.bucketName = bucketName;
 	}
 
 	@Override
