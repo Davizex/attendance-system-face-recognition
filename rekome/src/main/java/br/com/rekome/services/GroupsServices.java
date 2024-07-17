@@ -11,6 +11,7 @@ import br.com.rekome.entities.Groups;
 import br.com.rekome.entities.User;
 import br.com.rekome.enums.UserRolesEnum;
 import br.com.rekome.operations.GroupsCreateOperation;
+import br.com.rekome.operations.GroupsEditOperation;
 import br.com.rekome.operations.InsertInGroupOperation;
 import br.com.rekome.repository.GroupsRepository;
 import br.com.rekome.validations.GroupCreateValidation;
@@ -48,7 +49,7 @@ public class GroupsServices {
 	}
 	
 	@Transactional
-	public void create(GroupsCreateOperation groupOp) {	
+	public Groups create(GroupsCreateOperation groupOp) {	
 		LOGGER.debug("Initialize group creation");
 		try {
 			new GroupCreateValidation(groupOp).execute();
@@ -73,16 +74,16 @@ public class GroupsServices {
 			var organization = this.organizarionService.findByUUID(groupOp.getOrganizationUuid());
 			
 			var group = new Groups(groupOp, usersList, monitorsList, organization);
-			this.groupsRepository.save(group);
+			group = this.groupsRepository.save(group);
 			
 			this.groupInfoService.create(groupOp.getGroupInfo(), group);
-			
+			return group;
 		} catch (Exception e) {
 			throw new RuntimeException("Error ao criar grupo: " + e.getMessage());
 		}
 	}
 
-	public void insertIn(InsertInGroupOperation insert) {
+	public void insert(InsertInGroupOperation insert) {
 		
 		var group = this.findByUUID(insert.getGroupUUID());
 		new GroupInsertInValidation(group, insert).execute();
@@ -101,6 +102,16 @@ public class GroupsServices {
 		} catch (Exception e) {
 			
 		}
+	}
+
+	public void edit(GroupsEditOperation groupOp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

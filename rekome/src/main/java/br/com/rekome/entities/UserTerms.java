@@ -1,5 +1,9 @@
 package br.com.rekome.entities;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.dialect.MySQLEnumJdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+
 import br.com.rekome.enums.UserTermsEnum;
 import br.com.rekome.utils.UserUtils;
 import jakarta.persistence.Column;
@@ -24,18 +28,18 @@ public class UserTerms {
 	private String uuid;
 
 	@Enumerated(EnumType.STRING)
-	private UserTermsEnum key;
+	private UserTermsEnum term;
 	
 	private String value;
 
 	@ManyToOne
 	private User user;
 
-	public UserTerms(Long id, String uuid, UserTermsEnum key, String value, User user) {
+	public UserTerms(Long id, String uuid, UserTermsEnum term, String value, User user) {
 		super();
 		this.id = id;
 		this.uuid = uuid;
-		this.key = key;
+		this.term = term;
 		this.value = value;
 		this.user = user;
 	}
@@ -60,12 +64,12 @@ public class UserTerms {
 		this.uuid = uuid;
 	}
 
-	public UserTermsEnum getKey() {
-		return key;
+	public UserTermsEnum getTerm() {
+		return term;
 	}
 
-	public void setKey(UserTermsEnum key) {
-		this.key = key;
+	public void setKey(UserTermsEnum term) {
+		this.term = term;
 	}
 
 	public String getValue() {
