@@ -19,6 +19,10 @@ public class GroupsInfosValidation implements ValidationInterface {
 	@Override
 	public void execute() {
 		LOGGER.debug("initialize group infos create validation.");
+		var attendanceLimit = groupInfo.getAttendanceLimit();
 		
+		if(attendanceLimit < 0 || attendanceLimit > 100) {
+			throw new RuntimeException("Invalid attendance limit.");
+		}
 	}
 }
