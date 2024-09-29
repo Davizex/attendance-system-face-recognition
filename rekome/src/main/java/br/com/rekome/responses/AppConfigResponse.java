@@ -12,12 +12,12 @@ public class AppConfigResponse {
 	private String uuid;
 
 	@NotNull
-	private String term;
+	private String name;
 
 	public AppConfigResponse(AppConfig appConfig) {
 		this.value = appConfig.getValue();
 		this.uuid = appConfig.getUuid();
-		this.term = appConfig.getName();
+		this.name = appConfig.getName();
 	}
 
 	public String getValue() {
@@ -36,12 +36,12 @@ public class AppConfigResponse {
 		this.uuid = uuid;
 	}
 
-	public String getTerm() {
-		return term;
+	public String getName() {
+		return name;
 	}
 
-	public void setTerm(String term) {
-		this.term = term;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
