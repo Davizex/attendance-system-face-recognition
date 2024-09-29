@@ -24,7 +24,7 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties: 
       hibernate:
-        dialect: org.hibernate.dialect.MariaDBDialect
+        dialect: ${DB_HIBERNATE_DIALECT:org.hibernate.dialect.MariaDBDialect}
   servlet:
     multipart:
       enabled: true
@@ -33,19 +33,32 @@ spring:
   cloud:
     aws:
       credentials:
-        access-key: 
-        secret-key: 
+        access-key: ${APP_AWS_ACCESS_KEY}
+        secret-key: ${APP_AWS_SECRET_KEY}
       s3:
-        region: us-east-1
+        region: ${APP_AWS_S3_REGION}
+management:
+  endpoints:
+    enabled-by-default: ${APP_ACTUATOR_ENABLE_BY_DEFAULT:false}
+    web:
+      exposure:
+        include: ${APP_ACTUATOR_EXPOSE:*}
+  prometheus:
+    metrics:
+      export:
+        step: ${APP_ACTUATOR_PROMETHEUS_STEP:30s}
 app:
   cors:
     headers: ${APP_CORS_HEADERS}
     origins: ${APP_CORS_ORIGINS}
     methods: ${APP_CORS_METHODS}
-  public-key: ${APP_PUBLIC_KEY:classpath:app-pub.key}
-  private-key: ${APP_PRIVATE_KEY:classpath:app.key}
+  secure:
+    private-key: ${APP_PRIVATE_KEY:classpath:app.key} 
+    public-key: ${APP_PUBLIC_KEY:classpath:app-pub.key}
+    secure-headers: ${APP_SECURE_HEADERS:true}
   properties:
-    aws-bucket: ${APP_PROPERTIES_AWS_BUCKET:rekognition-custom}
+    aws-bucket: ${APP_PROPERTIES_AWS_BUCKET}
+    face-similarity-threshold: ${APP_PROPERTIES_FACE_SIMILARITY_THRESHOLD:80F}
 logging:
  level:
   org:
