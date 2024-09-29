@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 
 import br.com.rekome.enums.UserRolesEnum;
 
-public class UserUtils {
+public class EntitiesUtils {
 	
 	private static final int EXPIRE_TIME_TOKEN = 60;
 	
@@ -27,8 +27,7 @@ public class UserUtils {
 		final byte[] salt = new byte[32];
 		final SecureRandom secureRandom = new SecureRandom();
 		secureRandom.nextBytes(salt);
-		
-		
+			
 		return Base64.getEncoder().encodeToString(salt);		
 	}
 	
