@@ -3,7 +3,7 @@ package br.com.rekome.entities;
 import java.util.List;
 
 import br.com.rekome.operations.OrganizationCreateOperation;
-import br.com.rekome.utils.UserUtils;
+import br.com.rekome.utils.EntitiesUtils;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class Organization {
 	private String name;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
-	private List<Groups> groups;
+	private List<Group> groups;
 	
 	@ManyToMany
 	@JoinTable(name="organization_admins",
@@ -40,7 +40,7 @@ public class Organization {
 		inverseJoinColumns = @JoinColumn(name="user_id"))
 	private List<User> admins;
 
-	public Organization(Long id, String uuid, @NotNull String name, List<Groups> groups, List<User> admins) {
+	public Organization(Long id, String uuid, @NotNull String name, List<Group> groups, List<User> admins) {
 		super();
 		this.id = id;
 		this.uuid = uuid;
@@ -54,7 +54,7 @@ public class Organization {
 	}
 
 	public Organization(OrganizationCreateOperation organizationOp, List<User> admins) {
-		this.uuid = UserUtils.generateUUID();
+		this.uuid = EntitiesUtils.generateUUID();
 		this.name = organizationOp.getName();
 		this.admins = admins;
 	}
@@ -83,11 +83,11 @@ public class Organization {
 		this.name = name;
 	}
 
-	public List<Groups> getGroups() {
+	public List<Group> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(List<Groups> groups) {
+	public void setGroups(List<Group> groups) {
 		this.groups = groups;
 	}
 

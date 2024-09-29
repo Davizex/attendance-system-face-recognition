@@ -3,6 +3,7 @@ package br.com.rekome.services;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import br.com.rekome.entities.Organization;
@@ -20,7 +21,7 @@ public class OrganizationService {
 	
 	private final UserService userService;
 	
-	public OrganizationService(OrganizationRepository repository, UserService userService) {
+	public OrganizationService(OrganizationRepository repository, @Lazy UserService userService) {
 		this.repository = repository;
 		this.userService = userService;
 	}
@@ -32,7 +33,7 @@ public class OrganizationService {
 			var adminList = new ArrayList<User>();
 			for(String userUUID : organizationOp.getAdmins()) {
 				User user = userService.findByUUID(userUUID);
-				if(user.getRole() == UserRolesEnum.ADMIN) {
+				if(user.getRole() == UserRolesEnum.ROLE_ADMIN) {
 					adminList.add(user);					
 				}
 			}
@@ -49,7 +50,7 @@ public class OrganizationService {
 		var organization = findByUUID(uuid);
 
 		if (organization.getGroups().isEmpty()) {
-			//TODO
+			this.repository.delete(organization);
 		} else {
 			throw new Exception("Organization can't be deleted has " + organization.getGroups().size()
 					+ " groups, need to delete them.");
@@ -67,7 +68,7 @@ public class OrganizationService {
 	}
 
 	public void edit(OrganizationEditOperation organization) {
-		// TODO
+		throw new UnsupportedOperationException("Organization edit not implemented");
 	}
 
 }
