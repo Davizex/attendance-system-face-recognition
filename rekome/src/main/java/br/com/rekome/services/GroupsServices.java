@@ -1,13 +1,13 @@
 package br.com.rekome.services;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import br.com.rekome.entities.Groups;
+import br.com.rekome.entities.Group;
 import br.com.rekome.entities.User;
 import br.com.rekome.enums.UserRolesEnum;
 import br.com.rekome.operations.GroupsCreateOperation;
@@ -30,7 +30,7 @@ public class GroupsServices {
 	
 	private final GroupsRepository groupsRepository;
 
-	public GroupsServices(UserService userService, GroupsInfoService groupInfoService,
+	public GroupsServices(@Lazy UserService userService, GroupsInfoService groupInfoService,
 			OrganizationService organizarionService, GroupsRepository groupsRepository) {
 		this.userService = userService;
 		this.groupInfoService = groupInfoService;
@@ -38,18 +38,13 @@ public class GroupsServices {
 		this.groupsRepository = groupsRepository;
 	}
 
-	public Groups findByUUID(String groupUUID) {
-		Optional<Groups> groupOp = this.groupsRepository.findByUuid(groupUUID);
-		
-		if(groupOp.isPresent()) {
-			return groupOp.get();
-		}else {
-			throw new RuntimeException("group " + groupUUID + " não encontrado.");
-		}
+	public Group findByUUID(String groupUUID) {
+		return this.groupsRepository.findByUuid(groupUUID)
+				.orElseThrow(() -> new RuntimeException("group " + groupUUID + " not found."));
 	}
 	
 	@Transactional
-	public Groups create(GroupsCreateOperation groupOp) {	
+	public Group create(GroupsCreateOperation groupOp) {	
 		LOGGER.debug("Initialize group creation");
 		try {
 			new GroupCreateValidation(groupOp).execute();
@@ -57,7 +52,7 @@ public class GroupsServices {
 			var usersList = new ArrayList<User>();
 			for(String userUUID : groupOp.getUsers()) {
 				User user = userService.findByUUID(userUUID);
-				if(user.getRole() == UserRolesEnum.DEFAULT) {
+				if(user.getRole() == UserRolesEnum.ROLE_DEFAULT) {
 					usersList.add(user);					
 				}
 			}
@@ -65,15 +60,15 @@ public class GroupsServices {
 			var monitorsList = new ArrayList<User>();
 			for(String userUUID : groupOp.getMonitors()) {
 				User user = userService.findByUUID(userUUID);
-				if(user.getRole().equals(UserRolesEnum.MANAGER) ||
-						user.getRole().equals(UserRolesEnum.ADMIN)) {
+				if(user.getRole().equals(UserRolesEnum.ROLE_MANAGER) ||
+						user.getRole().equals(UserRolesEnum.ROLE_ADMIN)) {
 					monitorsList.add(user);					
 				}
 			}
 			
 			var organization = this.organizarionService.findByUUID(groupOp.getOrganizationUuid());
 			
-			var group = new Groups(groupOp, usersList, monitorsList, organization);
+			var group = new Group(groupOp, usersList, monitorsList, organization);
 			group = this.groupsRepository.save(group);
 			
 			this.groupInfoService.create(groupOp.getGroupInfo(), group);
@@ -100,18 +95,17 @@ public class GroupsServices {
 			this.groupsRepository.save(group);
 			
 		} catch (Exception e) {
-			
+			throw e;
 		}
 	}
 
 	public void edit(GroupsEditOperation groupOp) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Group edit not implemented");
 		
 	}
 
 	public void delete(String uuid) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Group delete not implemented");		
 	}
 
 }

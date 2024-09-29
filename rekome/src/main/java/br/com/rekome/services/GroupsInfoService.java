@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import br.com.rekome.entities.Groups;
-import br.com.rekome.entities.GroupsInfos;
+import br.com.rekome.entities.Group;
+import br.com.rekome.entities.GroupInfos;
 import br.com.rekome.operations.GroupsInfoCreateOperation;
 import br.com.rekome.repository.GroupsInfosRepository;
 import br.com.rekome.validations.GroupsInfosValidation;
@@ -21,12 +21,12 @@ public class GroupsInfoService {
 		this.groupInfoRepository = groupInfoRepository;
 	}
 
-	public void create(GroupsInfoCreateOperation groupsInfosOp, Groups group) {
+	public void create(GroupsInfoCreateOperation groupsInfosOp, Group group) {
 		LOGGER.debug("Initialize group info creation");
 
 		new GroupsInfosValidation(groupsInfosOp).execute();
 
-		var groupInfo = new GroupsInfos(groupsInfosOp, group);
+		var groupInfo = new GroupInfos(groupsInfosOp, group);
 
 		groupInfoRepository.save(groupInfo);
 	}

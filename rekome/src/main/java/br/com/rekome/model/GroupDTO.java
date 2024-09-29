@@ -1,8 +1,9 @@
 package br.com.rekome.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
-import br.com.rekome.entities.Groups;
+import br.com.rekome.entities.Group;
 
 public class GroupDTO {
 	
@@ -10,13 +11,13 @@ public class GroupDTO {
 	
 	private OrganizationDTO organization;
 	
-	private Date startDate;
+	private LocalDate startDate;
 	
-	private Date endDate;
+	private LocalDate endDate;
 	
 	private Date creationDate;
 
-	public GroupDTO(String uuid, OrganizationDTO organization, Date startDate, Date endDate, Date creationDate) {
+	public GroupDTO(String uuid, OrganizationDTO organization, LocalDate startDate, LocalDate endDate, Date creationDate) {
 		super();
 		this.uuid = uuid;
 		this.organization = organization;
@@ -25,7 +26,7 @@ public class GroupDTO {
 		this.creationDate = creationDate;
 	}
 
-	public GroupDTO(Groups group) {
+	public GroupDTO(Group group) {
 		this.uuid = group.getUuid();
 		this.organization = new OrganizationDTO(group.getOrganization());
 		this.startDate = group.getStartDate();
@@ -49,19 +50,19 @@ public class GroupDTO {
 		this.organization = organization;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 

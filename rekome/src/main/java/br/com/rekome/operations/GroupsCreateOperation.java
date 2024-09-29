@@ -1,6 +1,6 @@
 package br.com.rekome.operations;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
@@ -17,12 +17,12 @@ public class GroupsCreateOperation {
 	private String organizationUuid;
 
 	@NotNull
-	private Date startDate;
+	private LocalDate startDate;
 	
 	@NotNull
-	private Date endDate;
+	private LocalDate endDate;
 	
-	public GroupsCreateOperation(@NotNull Date startDate, @NotNull Date endDate,
+	public GroupsCreateOperation(@NotNull LocalDate startDate, @NotNull LocalDate endDate,
 			@NotNull GroupsInfoCreateOperation groupInfo, List<String> users, List<String> monitors) {
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -31,19 +31,19 @@ public class GroupsCreateOperation {
 		this.monitors = monitors;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 

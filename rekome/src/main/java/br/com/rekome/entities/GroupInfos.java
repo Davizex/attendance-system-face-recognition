@@ -7,7 +7,7 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 
 import br.com.rekome.operations.GroupsInfoCreateOperation;
-import br.com.rekome.utils.UserUtils;
+import br.com.rekome.utils.EntitiesUtils;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -26,7 +26,7 @@ import jakarta.validation.constraints.Min;
 
 @Entity
 @Table(name = "groups_infos")
-public class GroupsInfos {
+public class GroupInfos {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,14 +37,14 @@ public class GroupsInfos {
 	
 	@OneToOne(cascade =  CascadeType.ALL)
 	@JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-	private Groups group;
+	private Group group;
 
 	@Max(100)
 	@Min(0)
 	private int attendanceLimit;
 	
-	@ElementCollection()
 	@Enumerated(EnumType.STRING)
+	@ElementCollection
 	@JoinTable(
 		    name="groups_infos_days",
 		    joinColumns=@JoinColumn(name="group_info_id")
@@ -55,12 +55,12 @@ public class GroupsInfos {
 	@Column(nullable = false)
 	private LocalDateTime creationDate;
 	
-	public GroupsInfos() {
+	public GroupInfos() {
 	}
 
 
-	public GroupsInfos(GroupsInfoCreateOperation groupsInfosOp, Groups group) {
-		this.uuid = UserUtils.generateUUID();
+	public GroupInfos(GroupsInfoCreateOperation groupsInfosOp, Group group) {
+		this.uuid = EntitiesUtils.generateUUID();
 		this.attendanceLimit  = groupsInfosOp.getAttendanceLimit();
 		this.daysOfAttendace = groupsInfosOp.getDays();
 		this.group = group;
@@ -82,11 +82,11 @@ public class GroupsInfos {
 		this.uuid = uuid;
 	}
 
-	public Groups getGroup() {
+	public Group getGroup() {
 		return group;
 	}
 
-	public void setGroup(Groups group) {
+	public void setGroup(Group group) {
 		this.group = group;
 	}
 

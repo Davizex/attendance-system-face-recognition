@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.rekome.entities.Groups;
+import br.com.rekome.entities.Group;
 
-public interface GroupsRepository extends JpaRepository<Groups, Long> {
+public interface GroupsRepository extends JpaRepository<Group, Long> {
 	
-	public Optional<Groups> findByUuid(String uuid);
+	public Optional<Group> findByUuid(String uuid);
 }

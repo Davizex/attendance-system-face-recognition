@@ -1,12 +1,13 @@
 package br.com.rekome.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import br.com.rekome.operations.GroupsCreateOperation;
-import br.com.rekome.utils.UserUtils;
+import br.com.rekome.utils.EntitiesUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,7 +24,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "groups")
-public class Groups {
+public class Group {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,37 +50,36 @@ public class Groups {
 	private Organization organization;
 	
 	@OneToOne(mappedBy = "group")
-	private GroupsInfos groupsInfos;
+	private GroupInfos groupsInfos;
 
 	@NotNull
-	private Date startDate;
+	private LocalDate startDate;
 	
 	@NotNull
-	private Date endDate;
+	private LocalDate endDate;
 
 	@CreationTimestamp
 	@Column(nullable = false)
 	private Date creationDate;
 
-	public Groups(Long id, String uuid, @NotNull Date startDate, @NotNull Date endDate) {
+	public Group(Long id, String uuid, @NotNull LocalDate startDate, @NotNull LocalDate endDate) {
 		this.id = id;
 		this.uuid = uuid;
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 
-	public Groups() {
-		super();
-	}
-
-	public Groups(GroupsCreateOperation group, List<User> usersList, List<User> monitorsList, Organization organization) {
-		this.uuid = UserUtils.generateUUID();
+	public Group(GroupsCreateOperation group, List<User> usersList, List<User> monitorsList, Organization organization) {
+		this.uuid = EntitiesUtils.generateUUID();
 		this.users = usersList;
 		this.monitors = monitorsList;
 		this.startDate = group.getStartDate();
 		this.endDate = group.getEndDate();
 		this.organization = organization;
 	}
+
+	public Group() {}
+
 
 	public Long getId() {
 		return id;
@@ -97,11 +97,11 @@ public class Groups {
 		this.uuid = uuid;
 	}
 
-	public GroupsInfos getInfos() {
+	public GroupInfos getInfos() {
 		return groupsInfos;
 	}
 
-	public void setInfos(GroupsInfos infos) {
+	public void setInfos(GroupInfos infos) {
 		this.groupsInfos = infos;
 	}
 
@@ -121,28 +121,32 @@ public class Groups {
 		this.monitors = monitors;
 	}
 
-	public GroupsInfos getGroupsInfos() {
+	public GroupInfos getGroupsInfos() {
 		return groupsInfos;
 	}
 
-	public void setGroupsInfos(GroupsInfos groupsInfos) {
+	public void setGroupsInfos(GroupInfos groupsInfos) {
 		this.groupsInfos = groupsInfos;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public Organization getOrganization() {
