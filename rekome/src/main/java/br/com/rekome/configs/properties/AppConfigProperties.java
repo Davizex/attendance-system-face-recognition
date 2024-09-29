@@ -10,45 +10,31 @@ public class AppConfigProperties {
 	
 	private CorsProperties cors;
 	
-	private String publicKey;
+	private SecureProperties secure;
 	
-	private String privateKey;
-
 	private Map<String, String> properties;
-	
+
 	@ConstructorBinding
-	public AppConfigProperties(CorsProperties cors, String publicKey, String privateKey,
-			Map<String, String> properties) {
-		super();
+	public AppConfigProperties(CorsProperties cors, SecureProperties secure, Map<String, String> properties) {
 		this.cors = cors;
-		this.publicKey = publicKey;
-		this.privateKey = privateKey;
+		this.secure = secure;
 		this.properties = properties;
+	}
+
+	public SecureProperties getSecure() {
+		return secure;
+	}
+
+	public void setSecure(SecureProperties secure) {
+		this.secure = secure;
 	}
 
 	public CorsProperties getCors() {
 		return cors;
 	}
 
-
 	public void setCors(CorsProperties cors) {
 		this.cors = cors;
-	}
-
-	public String getPublicKey() {
-		return publicKey;
-	}
-
-	public void setPublicKey(String publicKey) {
-		this.publicKey = publicKey;
-	}
-
-	public String getPrivateKey() {
-		return privateKey;
-	}
-
-	public void setPrivateKey(String privateKey) {
-		this.privateKey = privateKey;
 	}
 
 	public Map<String, String> getProperties() {
