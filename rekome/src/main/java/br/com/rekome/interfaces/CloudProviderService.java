@@ -7,5 +7,7 @@ import br.com.rekome.entities.User;
 public interface CloudProviderService {
 	
 	public void createUser(User createdUser, MultipartFile file) throws Exception;
+
 	
+	public void takeAttendance(User user, MultipartFile file) throws Exception;
 }
