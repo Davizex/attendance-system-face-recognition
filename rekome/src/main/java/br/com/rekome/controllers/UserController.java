@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.rekome.entities.User;
-import br.com.rekome.interfaces.CloudProviderService;
+import br.com.rekome.model.UserDTO;
 import br.com.rekome.operations.UserCreateOperation;
 import br.com.rekome.operations.UserEditOperation;
 import br.com.rekome.services.UserService;
@@ -27,12 +27,9 @@ import br.com.rekome.services.UserService;
 public class UserController {
 
 	private final UserService userService;
-	
-	private final CloudProviderService service;
 
-    public UserController(UserService userService, CloudProviderService service) {
+    public UserController(UserService userService) {
 		this.userService = userService;
-		this.service = service;
 	}
 
 	@PostMapping(path = "/create", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -46,8 +43,10 @@ public class UserController {
 	
 	@GetMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> findByUUID(@PathVariable final String uuid){
-		this.userService.findByUUID(uuid);
-		return null;
+		var user = this.userService.findByUUID(uuid);
+		var userDto = new UserDTO(user);
+		
+		return ResponseEntity.ok(userDto);
 	}
 
 	@PutMapping
@@ -59,7 +58,7 @@ public class UserController {
 	@DeleteMapping(path = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> delete(@PathVariable final String uuid){
 		this.userService.delete(uuid);
-		return ResponseEntity.created(null).build();
+		return ResponseEntity.notFound().build();
 	}
 	
 }

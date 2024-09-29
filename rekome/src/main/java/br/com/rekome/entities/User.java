@@ -1,13 +1,13 @@
 package br.com.rekome.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import br.com.rekome.enums.UserRolesEnum;
 import br.com.rekome.operations.UserCreateOperation;
-import br.com.rekome.utils.UserUtils;
+import br.com.rekome.utils.EntitiesUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,7 +37,7 @@ public class User {
 	private String document;
 	
 	@Column(nullable = false)
-	private Date birthday;	
+	private LocalDate birthday;	
 	
 	@Column(unique = true, length = 36, nullable = false)
 	private String uuid;
@@ -56,7 +56,7 @@ public class User {
 	@NotBlank
 	private String salt;
 	
-	public User(Long id, String name, @Email String email, String document, Date birthday, String uuid,
+	public User(Long id, String name, @Email String email, String document, LocalDate birthday, String uuid,
 			LocalDateTime creationDate, UserRolesEnum role, @NotBlank String password, @NotBlank String salt) {
 		super();
 		this.id = id;
@@ -76,10 +76,10 @@ public class User {
 		this.email = userOperation.getEmail();
 		this.document = userOperation.getDocument();
 		this.birthday = userOperation.getBirthday();
-		this.uuid = UserUtils.generateUUID();
-		this.role = UserRolesEnum.DEFAULT;
-		this.salt = UserUtils.generatePasswordSalt();
-		this.password = UserUtils.generatePassword(userOperation.getPassword(), this.salt);
+		this.uuid = EntitiesUtils.generateUUID();
+		this.role = UserRolesEnum.ROLE_DEFAULT;
+		this.salt = EntitiesUtils.generatePasswordSalt();
+		this.password = EntitiesUtils.generatePassword(userOperation.getPassword(), this.salt);
 	}
 	
 	public User() {
@@ -141,11 +141,11 @@ public class User {
 		this.role = role;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 

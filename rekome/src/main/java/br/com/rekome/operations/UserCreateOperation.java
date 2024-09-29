@@ -1,6 +1,6 @@
 package br.com.rekome.operations;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -22,7 +22,7 @@ public class UserCreateOperation {
 	private final String document;
 	
 	@NotNull
-	private final Date birthday;
+	private final LocalDate birthday;
 
 	@NotBlank
 	private final String password;
@@ -31,7 +31,7 @@ public class UserCreateOperation {
 	private final String confirmationPassword;
 
 	public UserCreateOperation(@NotBlank String name, @Email @NotBlank String email, @CPF @NotBlank String document,
-			@NotNull Date birthday, @NotBlank String password, @NotBlank String confirmationPassword) {
+			@NotNull LocalDate birthday, @NotBlank String password, @NotBlank String confirmationPassword) {
 		this.name = name;
 		this.email = email;
 		this.document = document;
@@ -48,7 +48,7 @@ public class UserCreateOperation {
 		return email;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 

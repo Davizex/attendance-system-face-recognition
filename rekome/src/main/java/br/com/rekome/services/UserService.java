@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.rekome.entities.Group;
 import br.com.rekome.entities.User;
 import br.com.rekome.interfaces.CloudProviderService;
 import br.com.rekome.operations.UserCreateOperation;
@@ -16,7 +17,7 @@ import br.com.rekome.operations.UserEditOperation;
 import br.com.rekome.operations.UserLoginOperation;
 import br.com.rekome.repository.UserRepository;
 import br.com.rekome.responses.LoginResponse;
-import br.com.rekome.utils.UserUtils;
+import br.com.rekome.utils.EntitiesUtils;
 import br.com.rekome.validations.UserCreateValidation;
 import br.com.rekome.validations.UserPasswordValidation;
 import jakarta.transaction.Transactional;
@@ -28,13 +29,16 @@ public class UserService {
 	
 	private final UserRepository userRepository;
 	
+	private final GroupsServices groupsServices;
+	
 	private final JwtEncoder jwtEncoder;
 	
 	private final CloudProviderService provider;
 
-	public UserService(UserRepository userRepository, JwtEncoder jwtEncoder, CloudProviderService provider) {
-		super();
+	public UserService(UserRepository userRepository, GroupsServices groupsServices, JwtEncoder jwtEncoder,
+			CloudProviderService provider) {
 		this.userRepository = userRepository;
+		this.groupsServices = groupsServices;
 		this.jwtEncoder = jwtEncoder;
 		this.provider = provider;
 	}
@@ -67,31 +71,36 @@ public class UserService {
 		
 		new UserPasswordValidation(user, login.getPassword()).execute();;
 		
-		var params = UserUtils.claimSet(user.getUuid(), user.getRole());	
+		var params = EntitiesUtils.claimSet(user.getUuid(), user.getRole());	
 		var value = jwtEncoder.encode(JwtEncoderParameters.from(params));
 		
 		LOGGER.debug("successful login to {}", login.getEmail());
 		return new LoginResponse(value);
 	}
 
+	public Optional<User> getUserUuidIfInGroupUuid(String userUuid, String groupUuid) {
+		Group group = groupsServices.findByUUID(groupUuid);
+
+		return this.getUserUuidIfInGroup(userUuid, group);
+	}
+	
+	public Optional<User> getUserUuidIfInGroup(String userUuid, Group group) {
+		User user = this.findByUUID(userUuid);
+
+		return group.getUsers().stream().filter(u -> u.getUuid().equals(user.getUuid())).findFirst();
+	}
+	
 	public User findByUUID(String userUUID) {
-		Optional<User> userOp = this.userRepository.findByUuid(userUUID);
-		
-		if(userOp.isPresent()) {
-			return userOp.get();
-		}else {
-			throw new RuntimeException("user " + userUUID + " não encontrado.");
-		}
+		return this.userRepository.findByUuid(userUUID)
+				.orElseThrow(() -> new RuntimeException("user " + userUUID + " not found."));
 	}
 
 	public void edit(UserEditOperation userOp) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("User edit not implemented.");
 	}
 
 	public void delete(String uuid) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("User delete not implemented.");		
 	}
 
 }

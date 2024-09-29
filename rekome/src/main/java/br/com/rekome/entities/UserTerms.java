@@ -1,11 +1,7 @@
 package br.com.rekome.entities;
 
-import org.hibernate.annotations.Type;
-import org.hibernate.dialect.MySQLEnumJdbcType;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
-
 import br.com.rekome.enums.UserTermsEnum;
-import br.com.rekome.utils.UserUtils;
+import br.com.rekome.utils.EntitiesUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,7 +41,7 @@ public class UserTerms {
 	}
 
 	public UserTerms() {
-		this.uuid = UserUtils.generateUUID();
+		this.uuid = EntitiesUtils.generateUUID();
 	}
 
 	public Long getId() {

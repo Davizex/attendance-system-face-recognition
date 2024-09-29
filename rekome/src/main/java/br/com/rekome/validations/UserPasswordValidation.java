@@ -2,7 +2,7 @@ package br.com.rekome.validations;
 
 import br.com.rekome.entities.User;
 import br.com.rekome.interfaces.ValidationInterface;
-import br.com.rekome.utils.UserUtils;
+import br.com.rekome.utils.EntitiesUtils;
 import jakarta.validation.constraints.NotNull;
 
 public class UserPasswordValidation implements ValidationInterface {
@@ -26,8 +26,12 @@ public class UserPasswordValidation implements ValidationInterface {
 			throw new RuntimeException("Senha está vázia");
 		}
 		
-		if(!user.getPassword().equals(UserUtils.generatePassword(password, user.getSalt()))) {
+		if(!user.getPassword().equals(userPasswordCheck())) {
 			throw new RuntimeException("Senha inválida");
 		}
+	}
+
+	private String userPasswordCheck() {
+		return EntitiesUtils.generatePassword(password, user.getSalt());
 	}
 }

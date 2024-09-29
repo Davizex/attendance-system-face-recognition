@@ -6,8 +6,7 @@ import java.util.regex.Pattern;
 
 import br.com.rekome.interfaces.ValidationInterface;
 import br.com.rekome.operations.UserCreateOperation;
-import br.com.rekome.utils.DateUtils;
-import br.com.rekome.utils.UserUtils;
+import br.com.rekome.utils.EntitiesUtils;
 
 public class UserCreateValidation implements ValidationInterface {
 		
@@ -25,7 +24,7 @@ public class UserCreateValidation implements ValidationInterface {
 	}
 
 	private void validateIsValidPassword(UserCreateOperation user) {
-		var isValid = Pattern.matches(UserUtils.PASSWORD_REGEX, user.getPassword());
+		var isValid = Pattern.matches(EntitiesUtils.PASSWORD_REGEX, user.getPassword());
 		if(!isValid) {
 			throw new IllegalArgumentException("Password isn't valid");
 		}
@@ -38,8 +37,7 @@ public class UserCreateValidation implements ValidationInterface {
 	}
 
 	private void validateUserAge(UserCreateOperation user) {
-		var userBirthday = DateUtils.dateToLocalDate(user.getBirthday());
-		var period = Period.between(userBirthday, LocalDate.now());
+		var period = Period.between(user.getBirthday(), LocalDate.now());
 		
 		if (period.getYears() < 18) {
 	        throw new IllegalArgumentException("User must be at least 18 years old.");
