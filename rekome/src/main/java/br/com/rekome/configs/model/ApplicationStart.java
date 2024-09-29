@@ -1,14 +1,13 @@
 package br.com.rekome.configs.model;
 
-import static br.com.rekome.enums.UserRolesEnum.ADMIN;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import br.com.rekome.entities.User;
+import br.com.rekome.enums.UserRolesEnum;
 import br.com.rekome.operations.UserCreateOperation;
 import br.com.rekome.repository.UserRepository;
 
@@ -26,10 +25,10 @@ public class ApplicationStart implements ApplicationListener<ContextRefreshedEve
 		User userExist = userRepository.findByEmail("root@root");
 		
 		if(userExist == null) {	
-			var userOperation = new UserCreateOperation("root", "root@root", "12345678901", new Date(), "BHU*nji9", "BHU*nji9");
+			var userOperation = new UserCreateOperation("root", "root@root", "12345678901", LocalDate.now(), "root", "root");
 			
 			var user = new User(userOperation);
-			user.setRole(ADMIN);
+			user.setRole(UserRolesEnum.ROLE_ADMIN);
 			
 			this.userRepository.save(user);
 		}
