@@ -1,14 +1,17 @@
 package br.com.rekome.entities;
 
+import br.com.rekome.operations.AppConfigOperation;
+import br.com.rekome.utils.EntitiesUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "appConfig")
+@Table(name = "app_config")
 public class AppConfig {
 	
 	@Id
@@ -21,6 +24,7 @@ public class AppConfig {
 	@Column(unique = true)
 	private String name;
 	
+	@Lob
 	private String value;
 
 	public AppConfig(Long id, String uuid, String name, String value) {
@@ -28,6 +32,12 @@ public class AppConfig {
 		this.uuid = uuid;
 		this.name = name;
 		this.value = value;
+	}
+
+	public AppConfig(AppConfigOperation app) {
+		this.uuid = EntitiesUtils.generateUUID();
+		this.name = app.getName();
+		this.value = app.getValue().toString();
 	}
 
 	public Long getId() {
