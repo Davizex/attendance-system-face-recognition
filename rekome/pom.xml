@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
 	<artifactId>rekome</artifactId>
@@ -19,8 +20,8 @@
 	<dependencies>
 		<!-- Spring data with Hiberante to access data-->
 		<dependency>
-		    <groupId>org.hibernate.validator</groupId>
-		    <artifactId>hibernate-validator</artifactId>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -44,14 +45,14 @@
 		</dependency>
 		<!-- Spring AWS S3-->
 		<dependency>
-		    <groupId>io.awspring.cloud</groupId>
-		    <artifactId>spring-cloud-aws-starter-s3</artifactId>
-		    <version>3.1.0</version>
+			<groupId>io.awspring.cloud</groupId>
+			<artifactId>spring-cloud-aws-starter-s3</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.amazonaws</groupId>
-		    <artifactId>aws-java-sdk-s3</artifactId>
-		    <version>1.12.725</version>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.12.725</version>
 		</dependency>
 		<!-- Database Drive-->
 		<dependency>
@@ -76,15 +77,25 @@
 		</dependency>
 		<!-- SDK AWS rekogntion -->
 		<dependency>
-		    <groupId>software.amazon.awssdk</groupId>
-		    <artifactId>rekognition</artifactId>
-		    <version>2.25.49</version>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>rekognition</artifactId>
+			<version>2.25.49</version>
 		</dependency>
 		<!-- spring application config -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<!-- observability -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- prometheus -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -93,6 +104,26 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- jacoco -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
