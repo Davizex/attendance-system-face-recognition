@@ -2,6 +2,7 @@ package br.com.rekome.entities;
 
 import java.util.Date;
 
+import br.com.rekome.utils.EntitiesUtils;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,16 +27,30 @@ public class Attendance {
 	private User user;
 	
 	@ManyToOne
-	private Groups group;
+	private Group group;
 	
 	@NotNull
-	private Date attencadeDateTime;
+	private Date attendanceDateTime;
 	
 	@Column(nullable = false, columnDefinition = "tinyint(1) DEFAULT '0'")
 	private boolean isPresent;
 	
 	@Column(nullable = false, columnDefinition = "tinyint(1) DEFAULT '0'")
 	private boolean justified;
+
+	public Attendance() {
+		this.isPresent = false;
+		this.justified = false;
+	}
+
+	public Attendance(User user, Group group, Date date, boolean present, boolean justified) {
+		this.uuid = EntitiesUtils.generateUUID();
+		this.attendanceDateTime = date;
+		this.isPresent = present;
+		this.justified = justified;
+		this.group = group;
+		this.user = user;
+	}
 
 	public Long getId() {
 		return id;
@@ -61,20 +76,20 @@ public class Attendance {
 		this.user = user;
 	}
 
-	public Groups getGroup() {
+	public Group getGroup() {
 		return group;
 	}
 
-	public void setGroup(Groups group) {
+	public void setGroup(Group group) {
 		this.group = group;
 	}
 
-	public Date getAttencadeDateTime() {
-		return attencadeDateTime;
+	public Date getAttendanceDateTime() {
+		return attendanceDateTime;
 	}
 
-	public void setAttencadeDateTime(Date attencadeDateTime) {
-		this.attencadeDateTime = attencadeDateTime;
+	public void setAttendanceDateTime(Date attendanceDateTime) {
+		this.attendanceDateTime = attendanceDateTime;
 	}
 
 	public boolean isPresent() {
